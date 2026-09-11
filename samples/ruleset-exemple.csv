@@ -1,0 +1,10 @@
+# action,source,destination,protocole,port,description
+allow,any,any,any,any,Regle temporaire oubliee
+allow,any,10.0.0.5,tcp,3389,Acces RDP serveur applicatif
+allow,any,10.0.0.10,tcp,22,SSH administration
+allow,192.168.10.0/24,any,tcp,443,Navigation web sortante HTTPS
+allow,any,10.0.0.20,tcp,21,FTP transfert fichiers legacy
+allow,10.0.0.0/8,10.0.0.30,tcp,1000-2000,Plage applicative interne
+allow,192.168.10.5,10.0.0.40,tcp,80,
+deny,any,any,any,any,Deny all final
+allow,203.0.113.0/24,dmz-web,tcp,443,Acces partenaire vers portail

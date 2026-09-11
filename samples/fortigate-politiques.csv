@@ -1,0 +1,6 @@
+vdom,id,name,srcintf,dstintf,srcaddr,dstaddr,service,action,status,nat,logtraffic,schedule,comments,srcaddr_resolved,dstaddr_resolved,service_resolved
+root,1,LAN_vers_Internet,port1,port2,LAN_USERS,all,WEB,accept,enable,enable,all,always,,192.168.10.0/24,all,tcp/80 tcp/443
+root,2,Acces_serveurs_web,port1,port3,LAN_USERS,SERVEURS_INTERNES,APP_METIER,accept,enable,disable,all,always,,192.168.10.0/24,10.0.0.10/32 10.0.0.20/32,tcp/8443
+root,3,,any,any,all,all,ALL,accept,enable,disable,disable,always,regle temporaire debug,all,all,any
+root,4,Maj_editeur,port3,port2,SRV_WEB,MAJ_EDITEUR,HTTPS,accept,enable,enable,all,always,,10.0.0.10/32,update.exemple-editeur.com,tcp/443
+root,5,Bloc_tout,any,any,all,all,ALL,deny,disable,disable,disable,always,,all,all,any
