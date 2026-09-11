@@ -266,7 +266,7 @@ A first pass, not a full policy analyser:
 
 - Portfolio : https://lenu-san.github.io
 - GitHub : https://github.com/Lenu-san
-- LinkedIn : https://www.linkedin.com/in/lenusan-gunarajah
+- LinkedIn : https://www.linkedin.com/in/l%C3%A9nusan-g-0470b6336
 
 ## Licence / License
 
