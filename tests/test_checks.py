@@ -163,3 +163,20 @@ class FortigateChainTests(unittest.TestCase):
         self.assertEqual([(r["protocole"], r["port"]) for r in rules], [("tcp", "3389"), ("tcp", "53"), ("udp", "53")])
         severities = [f["severity"] for f in checks.audit(rules)]
         self.assertIn("ÉLEVÉE", severities)   # RDP exposé depuis toute source
+
+
+class JsonOutputTests(unittest.TestCase):
+    def test_json_structure_matches_report_format(self):
+        import fw_audit
+
+        sample = os.path.join(os.path.dirname(__file__), "..", "samples", "ruleset-exemple.csv")
+        rules, skipped = parser.parse_ruleset(sample)
+        findings = checks.audit(rules)
+        data = fw_audit.to_json(sample, rules, skipped, findings, findings)
+        self.assertEqual(data["file"], "ruleset-exemple.csv")
+        self.assertEqual(data["rules"], 9)
+        self.assertEqual(data["summary"], {"CRITIQUE": 1, "ÉLEVÉE": 3, "MOYENNE": 2, "INFO": 1})
+        first = data["findings"][0]
+        self.assertEqual(set(first), {"severity", "line", "rule", "label", "issue", "reco"})
+        self.assertNotIn("_line", first["rule"])
+        self.assertEqual(first["severity"], "CRITIQUE")

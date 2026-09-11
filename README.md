@@ -26,6 +26,7 @@ Outil défensif : il ne fait que lire un fichier local. À utiliser sur les pare
 - Cinq contrôles d'audit, chacun avec sévérité, règle concernée, problème et recommandation.
 - Seules les règles qui **autorisent** du trafic sont auditées (`allow`, `permit`, `accept`, `pass`, `autoriser`).
 - Filtre d'affichage `--min-severite` ; le bilan compte toujours l'ensemble des constats.
+- Sortie `--json` (fichier, nombre de règles, bilan, constats avec la règle concernée) pour un rapport ou un autre outil.
 - Code de sortie exploitable en CI : `2` si au moins un constat CRITIQUE, `1` si au moins un ÉLEVÉE, `0` sinon.
 - **Lecture directe d'un export FortiGate** : le CSV produit par [fortigate-policy-parser](https://github.com/Lenu-san/fortigate-policy-parser) est reconnu automatiquement (`--format auto`), les politiques désactivées sont ignorées, les services prédéfinis FortiOS (HTTP, RDP, ALL_TCP…) et les colonnes résolues de `--resolve` sont traduits en protocole / port, et chaque constat est rattaché à l'identifiant de la politique.
 
@@ -85,6 +86,7 @@ python fw_audit.py samples/ruleset-exemple.csv
 python fw_audit.py samples/ruleset-exemple.csv
 python fw_audit.py mes-regles.csv --min-severite MOYENNE
 python fw_audit.py samples/fortigate-politiques.csv          # export FortiGate, détecté automatiquement
+python fw_audit.py mes-regles.csv --json > constats.json
 python -m unittest discover -s tests -v
 ```
 
@@ -125,7 +127,7 @@ Sur l'export FortiGate d'exemple (5 politiques, 1 désactivée ignorée) :
 Bilan — CRITIQUE: 1  MOYENNE: 1  FAIBLE: 1
 ```
 
-18 tests unitaires couvrent la lecture des deux formats, chacun des contrôles et le chaînage FortiGate.
+19 tests unitaires couvrent la lecture des deux formats, chacun des contrôles et le chaînage FortiGate.
 
 ### Limites
 
@@ -165,6 +167,7 @@ Defensive tool: it only reads a local file. Use it on firewalls you are authoris
 - Five audit checks, each with a severity, the rule concerned, the issue and a recommendation.
 - Only rules that **allow** traffic are audited (`allow`, `permit`, `accept`, `pass`, `autoriser`).
 - `--min-severite` display filter; the summary always counts every finding.
+- `--json` output (file, rule count, summary, findings with the rule concerned) for a report or another tool.
 - CI-friendly exit code: `2` if at least one CRITICAL finding, `1` if at least one HIGH, `0` otherwise.
 - **Direct FortiGate export support**: the CSV produced by [fortigate-policy-parser](https://github.com/Lenu-san/fortigate-policy-parser) is recognised automatically (`--format auto`), disabled policies are skipped, FortiOS predefined services (HTTP, RDP, ALL_TCP…) and the resolved columns from `--resolve` are translated into protocol / port, and every finding is tied to the policy id.
 
@@ -224,6 +227,7 @@ python fw_audit.py samples/ruleset-exemple.csv
 python fw_audit.py samples/ruleset-exemple.csv
 python fw_audit.py my-rules.csv --min-severite MOYENNE
 python fw_audit.py samples/fortigate-politiques.csv          # FortiGate export, detected automatically
+python fw_audit.py my-rules.csv --json > findings.json
 python -m unittest discover -s tests -v
 ```
 
@@ -238,7 +242,7 @@ Input format, one rule per line: `action,source,destination,protocole,port,descr
 
 ### Results
 
-On the sample set (9 rules), the summary line is `CRITIQUE: 1  ÉLEVÉE: 3  MOYENNE: 2  INFO: 1`. On the sample FortiGate export (5 policies, 1 disabled and skipped): one critical any→any policy, one clear-text HTTP rule, one allow rule without logging, each tied to its policy id (see the French section for the full output). 18 unit tests cover both input formats, each check and the FortiGate chaining.
+On the sample set (9 rules), the summary line is `CRITIQUE: 1  ÉLEVÉE: 3  MOYENNE: 2  INFO: 1`. On the sample FortiGate export (5 policies, 1 disabled and skipped): one critical any→any policy, one clear-text HTTP rule, one allow rule without logging, each tied to its policy id (see the French section for the full output). 19 unit tests cover both input formats, each check and the FortiGate chaining.
 
 ### Limitations
 
